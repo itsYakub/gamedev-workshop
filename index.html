@@ -16,8 +16,121 @@
 	<body>
 		<div class="reveal">
 			<div class="slides">
-				<section>Slide 1</section>
-				<section>Slide 2</section>
+				<section>
+					<h1> Game Engines - Introduction </h1>
+					<hr>
+					<h3> By Jakub Oleksiak (joleksia) </h3>
+				</section>
+				<section>
+					<h2> List of content </h2>
+					<hr>
+					<ol>
+						<li>Introduction.</li>
+						<li>How to make a game engine?</li>
+						<li>Making a custom engine (PART 1).</li>
+						<li>Making a custom engine (PART 2).</li>
+						<li>Questions and Answers!</li>
+					</ol>
+				</section>
+				<section>
+					<section>
+						<h2> Introduction </h2>
+						<hr>
+						<ul>
+							<li>What is a game engine?</li>
+							<li>Popular game engines.</li>
+							<li>Big brands and their engines.</li>
+							<li>Is it hard to create an engine?</li>
+						</ul>
+					</section>
+					<section>
+						<h3> What is a game engine? </h3>
+						<hr>
+					</section>
+					<section>
+						<h3> Popular game engines. </h3>
+						<hr>
+					</section>
+					<section>
+						<h3> Big brands and their engines. </h3>
+						<hr>
+					</section>
+					<section>
+						<h3> Is it hard to create an engine? </h3>
+						<hr>
+					</section>
+				</section>
+				<section>
+					<section>
+						<h2> How to make a game engine </h2>
+						<ul>
+							<li>Window on the screen.</li>
+							<li>Rendering to the screen.</li>
+							<li>Update loop?</li>
+							<li>What can we use?</li>
+						</ul>
+					</section>
+					<section>
+						<h3> Window on the screen. </h3>
+						<hr>
+					</section>
+					<section>
+						<h3> Rendering to the screen. </h3>
+						<hr>
+					</section>
+					<section>
+						<h3> Update loop? </h3>
+						<hr>
+					</section>
+					<section>
+						<h3> What can we use? </h3>
+						<hr>
+					</section>
+				</section>
+				<section>
+					<section>
+						<h2> Making a custom engine (PART 1). </h2>
+						<ul>
+							<li>Welcome to raylib!</li>
+							<li>Example game with raylib</li>
+						</ul>
+					</section>
+					<section>
+						<h3> Welcome to raylib! </h3>
+						<hr>
+						<p><a href="https://github.com/raysan5/raylib">raylib</a> is an simple and easy to use library for enjoying video games development.</p>
+						<p>It's written in C, build on top of OpenGL, custom GLFW, miniaudio, stb... etc.</p>
+						<p>It's API is simple yet powerful, allowing us to create any kind of game and application!</p>
+						</p>
+					</section>
+					<section>
+						<h3> Example game with raylib. </h3>
+						<hr>
+						<pre><code data-trim data-noescape data-line-numbers="0|1|4-5|7|8|10-15|18-20|0">
+						#include "raylib.h"
+
+						int main(int ac, char **av) {
+							InitWindow(800, 600, "Hello, raylib!");
+							InitAudioDevice();
+
+							while (!WindowShouldClose()) {
+								/* update here */
+
+								BeginDrawing();
+								ClearBackground(WHITE);
+
+								/* render here */
+
+								EndDrawing();
+							}
+
+							CloseAudioDevice();
+							CloseWindow();
+							return (0);
+						}
+						</code></pre>
+					</section>
+				</section>
 			</div>
 		</div>
 
