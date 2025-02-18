@@ -22,112 +22,222 @@
 					<h3> By Jakub Oleksiak (joleksia) </h3>
 				</section>
 				<section>
-					<h2> List of content </h2>
+					<h2> Table of Contents: </h2>
 					<hr>
-					<ol>
-						<li>Introduction.</li>
-						<li>How to make a game engine?</li>
-						<li>Making a custom engine (PART 1).</li>
-						<li>Making a custom engine (PART 2).</li>
-						<li>Questions and Answers!</li>
-					</ol>
+					<ul>
+						<li class="fragment">What is a Game Engine?</li>
+						<li class="fragment">Game Engine structure.</li>
+						<li class="fragment">Let's write a simple engine!</li>
+					</ul>
 				</section>
 				<section>
 					<section>
-						<h2> Introduction </h2>
+						<h2> What is a Game Engine? </h2>
 						<hr>
-						<ul>
-							<li>What is a game engine?</li>
-							<li>Popular game engines.</li>
-							<li>Big brands and their engines.</li>
-							<li>Is it hard to create an engine?</li>
-						</ul>
-					</section>
-					<section>
-						<h3> What is a game engine? </h3>
-						<hr>
-					</section>
-					<section>
-						<h3> Popular game engines. </h3>
-						<hr>
-					</section>
-					<section>
-						<h3> Big brands and their engines. </h3>
-						<hr>
-					</section>
-					<section>
-						<h3> Is it hard to create an engine? </h3>
-						<hr>
-					</section>
-				</section>
-				<section>
-					<section>
-						<h2> How to make a game engine </h2>
-						<ul>
-							<li>Window on the screen.</li>
-							<li>Rendering to the screen.</li>
-							<li>Update loop?</li>
-							<li>What can we use?</li>
-						</ul>
-					</section>
-					<section>
-						<h3> Window on the screen. </h3>
-						<hr>
-					</section>
-					<section>
-						<h3> Rendering to the screen. </h3>
-						<hr>
-					</section>
-					<section>
-						<h3> Update loop? </h3>
-						<hr>
-					</section>
-					<section>
-						<h3> What can we use? </h3>
-						<hr>
-					</section>
-				</section>
-				<section>
-					<section>
-						<h2> Making a custom engine (PART 1). </h2>
-						<ul>
-							<li>Welcome to raylib!</li>
-							<li>Example game with raylib</li>
-						</ul>
-					</section>
-					<section>
-						<h3> Welcome to raylib! </h3>
-						<hr>
-						<p><a href="https://github.com/raysan5/raylib">raylib</a> is an simple and easy to use library for enjoying video games development.</p>
-						<p>It's written in C, build on top of OpenGL, custom GLFW, miniaudio, stb... etc.</p>
-						<p>It's API is simple yet powerful, allowing us to create any kind of game and application!</p>
+						<p class="fragment">
+							Game Engine is an application that handles resources, states and behaviours of the program.
+							It usually consists of a graphical user interface (GUI), the Scene and Game view, a hierarchy tree, inspector... etc. etc.
 						</p>
 					</section>
 					<section>
-						<h3> Example game with raylib. </h3>
+						<h2> Library vs Framework vs Engine </h2>
 						<hr>
-						<pre><code data-trim data-noescape data-line-numbers="0|1|4-5|7|8|10-15|18-20|0">
-						#include "raylib.h"
+						<p class="fragment">
+							At first glance, library, framework and engine looks like a one thing. But what are the key differences between those?
+						</p>
+					</section>
+					<section>
+						<h2> Library </h2>
+						<hr>
+						<p class"fragment">
+							Library is a collection of code specified to doing a certain tasks (for example: creating a window, rendering graphics, math operations).
+						</p>
+					</section>
+					<section>
+						<pre><code data-trim data-noescape>
+						// ...
+						// Initialize window and OpenGL context
+						RLAPI void InitWindow(int width, int height, const char *title);
+						// ...
+						// Draw a color-filled rectangle
+						RLAPI void DrawRectangle(int posX, int posY, int width, int height, Color color);
+						// ...
+						// Load texture from file into GPU memory (VRAM)
+						RLAPI Texture2D LoadTexture(const char *fileName);
+						// ...
+						// Unload model (including meshes) from memory (RAM and/or VRAM)
+						RLAPI void UnloadModel(Model model);
+						// ...
+						</code></pre>
+					</section>
+					<section>
+						<h2> Game Framework </h2>
+						<hr>
+						<p class="fragment">
+							Framework is a collection of code that calls a collection of code in the specified manner.
+							It give the programmer the space to manipulate data in the way intended by implementers.
+						</p>
+					</section>
+					<section>
+						<pre><code data-trim data-noescape>
+							public class Game1 : Game
+							{
+								private GraphicsDeviceManager _graphics;
+								private SpriteBatch _spriteBatch;
 
-						int main(int ac, char **av) {
-							InitWindow(800, 600, "Hello, raylib!");
-							InitAudioDevice();
+								public Game1()
+								{
+									_graphics = new GraphicsDeviceManager(this);
+									Content.RootDirectory = "Content";
+									IsMouseVisible = true;
+								}
 
-							while (!WindowShouldClose()) {
-								/* update here */
+								protected override void Initialize()
+								{
+									// TODO: Add your initialization logic here
 
-								BeginDrawing();
-								ClearBackground(WHITE);
+									base.Initialize();
+								}
 
-								/* render here */
 
-								EndDrawing();
+								protected override void LoadContent()
+								{
+									_spriteBatch = new SpriteBatch(GraphicsDevice);
+
+									// TODO: use this.Content to load your game content here
+								}
+
+								protected override void Update(GameTime gameTime)
+								{
+									if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
+										Exit();
+
+									// TODO: Add your update logic here
+
+									base.Update(gameTime);
+								}
+
+								protected override void Draw(GameTime gameTime)
+								{
+									GraphicsDevice.Clear(Color.CornflowerBlue);
+
+									// TODO: Add your drawing code here
+
+									base.Draw(gameTime);
+								}
 							}
 
-							CloseAudioDevice();
-							CloseWindow();
-							return (0);
-						}
+						</code></pre>
+					</section>
+					<section>
+						<h2> Engine </h2>
+						<hr>
+						<p class="fragment">
+							Engine is a piece of software that wraps all the previous two concepts into one thing.
+							It also handles additional components common for engines: Entities, Components, Scenes, Animations etc.
+						</p>
+					</section>
+				</section>
+				<section>
+					<section>
+						<h2> Game Engine structure. </h2>
+						<hr>
+						<p class="fragment">
+							The most basic game engine structure looks like this:
+						</p>
+						<ol>
+							<li class="fragment">Init Logic</li>
+							<li class="fragment">Update Loop
+								<ol>
+									<li class="fragment">Update Logic</li>
+									<li class="fragment">Render Logic</li>
+									<li class="fragment">Input Logic</li>
+								</ol>
+							</li>
+							<li class="fragment">Close Logic</li>
+						</ol>
+					</section>
+					<section>
+						<h2> Example </h2>
+						<hr>
+						<pre><code data-trim data-noescape data-line-numbers="0|1|4-5|7|8|9-12|14-15|0">
+							#include &ltraylib.h&gt
+
+							int main(int ac, char *av) {
+								InitWindow(800, 600, "Hello, raylib!");
+								/* Here We can initialize assets... */
+
+								while (!WindowShouldClose()) {
+									/* You can update your game here... */
+									BeginDrawing();
+									ClearBackground(WHITE);
+									/* Render your scene here... */
+									EndDrawing(); /* NOTE: EndDrawing also handles the inputing and doublebuffering */
+								}
+								/* Handle unloading here... */
+								CloseWindow();
+								return (0);
+							}
+						</code></pre>
+					</section>
+					<section>
+						<h2> Example </h2>
+						<hr>
+						<pre><code data-trim data-noescape data-line-numbers="0|1|3-5|7-10|13|15-16|17|18-19|21-24|22,24|23|26-27|0">
+							#include &ltraylib.h&gt
+
+							typedef struct s_game {
+								/* ... */
+							}	t_game;
+
+							void load(t_game *);
+							void update(t_game *);
+							void render(t_game *);
+							void close(t_game *);
+						
+							int main(int ac, char *av) {
+								t_game	game;
+
+								/* Init section */
+								load(&game);
+								while (!WindowShouldClose()) {
+									/* Update section */
+									update(&game);
+									
+									/* Render section */
+									BeginDrawing();
+									render(&game);
+									EndDrawing();
+								}
+								/* Closing section */
+								close(&game);
+								return (0);
+							}
+						</code></pre>
+					</section>
+				</section>
+				<section>
+					<section>
+						<h2> Let's write a simple engine! </h2>
+						<hr>
+						<p class="fragment">
+							For this section We'll use minilibx library, commonly used during the 42core curriculum.
+						</p>
+						<p class="fragment">
+							Using mlx we can simply structure our game, send and modify the data using the hooks concept, and in general use the most basic X11 concepts with relatively easy level of entry.
+						</p>
+					</section>
+					<section>
+						<pre><code data-trim data-noescape>
+							#include &ltmlx.h&gt
+							
+							typedef struct s_game {
+								/* ... */
+							t_game;
+
+							int main(void) {
+								
+							}
 						</code></pre>
 					</section>
 				</section>
