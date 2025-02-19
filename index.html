@@ -54,6 +54,8 @@
 						</p>
 					</section>
 					<section>
+						<h2> Library example: </h2>
+						<hr>
 						<pre><code data-trim data-noescape>
 						// ...
 						// Initialize window and OpenGL context
@@ -79,6 +81,8 @@
 						</p>
 					</section>
 					<section>
+						<h2> Framework example: </h2>
+						<hr>
 						<pre><code data-trim data-noescape>
 							public class Game1 : Game
 							{
@@ -230,14 +234,64 @@
 					<section>
 						<pre><code data-trim data-noescape>
 							#include &ltmlx.h&gt
+							#include &ltstdlib.h&gt
 							
 							typedef struct s_game {
+								void	*mlx;
+								void	*wnd;
+								void	*img;
+								void	*dat;
 								/* ... */
 							t_game;
 
+							void	init(t_game *game);
+							void	run(t_game *game);
+							void	input(int key, t_game *game);
+							void	update(t_game *game);
+							void	close(t_game *game);
+
 							int main(void) {
+								t_game	game;
 								
+								init(&game);
+								run(&game);
 							}
+
+							void	init(t_game *game) {
+								int	bits;
+								int	len;
+								int	endian;
+
+								game->mlx = mlx_init();
+								game->wnd = mlx_new_window(game->mlx, 800, 600, "Hello, minilibx!");
+								game->img = mlx_new_image(game->mlx, 800, 600);
+								game->dat = mlx_get_data_ptr(game->img, &bits, &len, &endian);
+							}
+							
+							void	run(t_game *game) {
+								mlx_loop_hook(game->s_mlx.ptr, update, game);
+								mlx_hook(game->s_mlx.wnd.ptr, 2, 1L << 0, input, game);
+								mlx_hook(game->s_mlx.wnd.ptr, 17, 0, close, game);
+								mlx_loop(game->mlx);
+							}
+
+							void	input(int key, t_game *game) {
+								/* Input logic goes here ... */
+							}
+
+							void	update(t_game *game) {
+								/* Update and render logic goes here ... */
+							}
+
+							void	close(t_game *game) {
+								mlx_loop_end(game->mlx);
+								mlx_destroy_window(game->mlx, game->wnd);
+								mlx_destroy_image(game->mlx, game->img);
+								mlx_destroy_display(game->mlx);
+								free(game->mlx);
+								exit(0);
+							}
+
 						</code></pre>
 					</section>
 				</section>
